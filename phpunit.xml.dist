@@ -7,7 +7,7 @@
 	convertWarningsToExceptions="true"
 	>
 	<testsuites>
-		<testsuite name="Tachyon test suite">
+		<testsuite name="WPImgIX test suite">
 			<directory prefix="class-" suffix=".php">tests</directory>
 		</testsuite>
 	</testsuites>

@@ -1,16 +1,18 @@
 {
-    "name": "humanmade/tachyon-plugin",
-    "description": "Rewrites WordPress image URLs to use Tachyon",
-    "type": "wordpress-plugin",
-    "license": "GPL-3.0",
-    "authors": [
-        {
-            "name": "Joe Hoyle",
-            "email": "joe@humanmade.com"
-        }
-    ],
-    "require": {},
-    "require-dev": {
-        "phpunit/phpunit": "^7"
-    }
+	"name": "rsoury/wp-imgix",
+	"description": "Rewrites WordPress image URLs to use ImgIX",
+	"type": "wordpress-plugin",
+	"license": "GPL-3.0",
+	"authors": [
+		{
+			"name": "Ryan Soury",
+			"email": "ryan@webdoodle.com.au"
+		}
+	],
+	"require": {
+		"imgix/imgix-php": "^3.3"
+	},
+	"require-dev": {
+		"phpunit/phpunit": "^7"
+	}
 }
