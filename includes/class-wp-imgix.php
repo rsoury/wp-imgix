@@ -5,8 +5,8 @@ use Imgix\UrlBuilder;
 class WPImgIX
 {
 	/**
-							 * Class variables
-							 */
+	 * Class variables
+	 */
 	// Oh look, a singleton
 	private static $__instance = null;
 
@@ -24,10 +24,10 @@ class WPImgIX
 	protected static $image_sizes = null;
 
 	/**
-							 * Singleton implementation
-							 *
-							 * @return object
-							 */
+	 * Singleton implementation
+	 *
+	 * @return object
+	 */
 	public static function instance()
 	{
 		if (!is_a(self::$__instance, __CLASS__)) {
@@ -143,8 +143,6 @@ class WPImgIX
 	public static function filter_the_content($content)
 	{
 		$images = static::parse_images_from_html($content);
-
-		error_log(print_r($images));
 
 		if (!empty($images)) {
 			$content_width = isset($GLOBALS['content_width']) ? $GLOBALS['content_width'] : false;

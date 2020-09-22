@@ -66,14 +66,7 @@ function imgix_url($image_url, $args = array(), $scheme = null)
 	// $imgix_url = str_replace($upload_baseurl, WP_IMGIX_URL, $image_url);
 	$image_pathname = parse_url($image_url, PHP_URL_PATH);
 
-	// \LuxSpaces\Util::debug_log($image_pathname);
-	// \LuxSpaces\Util::debug_log($args);
-
 	$imgix_url = WPImgIX::instance()->build_url($image_pathname, $args); // add_query_arg($args, $imgix_url);
-
-	// \LuxSpaces\Util::debug_log($imgix_url);
-	// \LuxSpaces\Util::debug_log('
-	// ');
 
 	/**
 	 * Allows a final modification of the generated imgix URL.
