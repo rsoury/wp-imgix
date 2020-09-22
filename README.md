@@ -44,7 +44,7 @@ add_filter( 'imgix_disable_in_admin', '__return_false' );
 
 #### `imgix_override_image_downsize`
 
-Defaults to `false`. Provides a way of preventing Tachyon from being applied to images retrieved from WordPress Core at the lowest level, you might use this if you wanted to use `imgix_url()` manually in specific cases.
+Defaults to `false`. Provides a way of preventing ImgIX from being applied to images retrieved from WordPress Core at the lowest level, you might use this if you wanted to use `imgix_url()` manually in specific cases.
 
 ```php
 add_filter( 'imgix_override_image_downsize', '__return_true' );
@@ -52,7 +52,7 @@ add_filter( 'imgix_override_image_downsize', '__return_true' );
 
 #### `imgix_skip_for_url`
 
-Allows skipping the Tachyon URL for a given image URL. Defaults to `false`.
+Allows skipping the ImgIX URL for a given image URL. Defaults to `false`.
 
 ```php
 add_filter( 'imgix_skip_for_url', function ( $skip, $image_url, $args ) {
@@ -66,12 +66,12 @@ add_filter( 'imgix_skip_for_url', function ( $skip, $image_url, $args ) {
 
 #### `imgix_pre_image_url`
 
-Filters the Tachyon image URL excluding the query string arguments. You might use this to shard Tachyon requests across multiple instances of the service for example.
+Filters the ImgIX image URL excluding the query string arguments.
 
 ```php
 add_filter( 'imgix_pre_image_url', function ( $image_url, $args ) {
 	if ( rand( 1, 2 ) === 2 ) {
-		$image_url = str_replace( TACHYON_URL, TACHYON_URL_2, $image_url );
+		$image_url = str_replace( WP_IMGIX_URL, WP_IMGIX_URL_2, $image_url );
 	}
 
 	return $image_url;
@@ -104,6 +104,6 @@ add_filter( 'imgix_remove_size_attributes', '__return_true' );
 ## Credits
 Created by Web Doodle
 
-Forked from [HumanMade's Tachyon Plugin](https://github.com/humanmade/tachyon-plugin)
+Forked from [HumanMade's Tachyon Plugin](https://github.com/humanmade/tachyon-plugin) -- Special thanks to the HumanMade team for working on accelerated Wordpress projects.
 
 Written and maintained by [Ryan Soury](https://github.com/rsoury).
