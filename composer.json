@@ -6,9 +6,14 @@
 	"authors": [
 		{
 			"name": "Ryan Soury",
-			"email": "ryan@webdoodle.com.au"
+			"email": "ryan@webdoodle.com.au",
+			"homepage": "https://www.webdoodle.com.au"
 		}
 	],
+	"support": {
+		"issues": "https://github.com/rsoury/wp-imgix/issues",
+		"source": "https://github.com/rsoury/wp-imgix"
+	},
 	"require": {
 		"imgix/imgix-php": "^3.3"
 	},

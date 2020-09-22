@@ -2,7 +2,7 @@
 
 /**
  * Plugin Name: WP ImgIX
- * Version: 0.12.0
+ * Version: 0.12.1
  * Description: Simple Wordpress ImgIX integration
  * Author: Ryan Soury | Web Doodle
  * Author URI: https://www.webdoodle.com.au/
