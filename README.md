@@ -2,7 +2,6 @@
 
 This plugin handles modifying WordPress image URLs to use the ImgIX service.
 It works very well with [S3-Uploads](https://github.com/humanmade/S3-Uploads)
-This plugin is a fork of [HumanMade's Tachyon Plugin](https://github.com/humanmade/tachyon-plugin)
 
 ## Installation
 
@@ -103,10 +102,8 @@ add_filter( 'imgix_remove_size_attributes', '__return_true' );
 ```
 
 ## Credits
-Created by Human Made for high volume and large-scale sites, such as [Happytables](http://happytables.com/). We run Tachyon on sites with millions of monthly page views, and thousands of sites.
+Created by Web Doodle
 
-Written and maintained by [Joe Hoyle](https://github.com/joehoyle).
+Forked from [HumanMade's Tachyon Plugin](https://github.com/humanmade/tachyon-plugin)
 
-Tachyon is forked from Photon by Automattic Inc. As Tachyon is not an all-purpose image resizer, rather it uses a media library in Amazon S3, it has a different use case to Photon.
-
-Interested in joining in on the fun? [Join us, and become human!](https://hmn.md/is/hiring/)
+Written and maintained by [Ryan Soury](https://github.com/rsoury).
