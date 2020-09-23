@@ -84,8 +84,8 @@ Filters the query string parameters appended to the imgix image URL.
 
 ```php
 add_filter( 'imgix_pre_args', function ( $args ) {
-	if ( isset( $args['resize'] ) ) {
-		$args['crop_strategy'] = 'smart';
+	if ( isset( $args['fit'] ) ) {
+		$args['fill'] = 'blur';
 	}
 
 	return $args;
