@@ -5,8 +5,8 @@ use Imgix\UrlBuilder;
 class WPImgIX
 {
 	/**
-	 * Class variables
-	 */
+							 * Class variables
+							 */
 	// Oh look, a singleton
 	private static $__instance = null;
 
@@ -24,10 +24,10 @@ class WPImgIX
 	protected static $image_sizes = null;
 
 	/**
-	 * Singleton implementation
-	 *
-	 * @return object
-	 */
+							 * Singleton implementation
+							 *
+							 * @return object
+							 */
 	public static function instance()
 	{
 		if (!is_a(self::$__instance, __CLASS__)) {
@@ -373,9 +373,9 @@ class WPImgIX
 								$args['h'] = $height;
 								$args['fit'] = 'crop';
 							} else if ($transform == 'fit') {
-								$args['w'] = $width;
-								$args['h'] = $height;
-								$args['fit'] = 'clamp';
+								$args['max-w'] = $width;
+								$args['max-h'] = $height;
+								$args['fit'] = 'crop';
 							}
 						}
 
@@ -646,9 +646,9 @@ class WPImgIX
 							$imgix_args['h'] = $height;
 							$imgix_args['fit'] = 'crop';
 						} else if ($transform == 'fit') {
-							$imgix_args['w'] = $width;
-							$imgix_args['h'] = $height;
-							$imgix_args['fit'] = 'clamp';
+							$imgix_args['max-w'] = $width;
+							$imgix_args['max-h'] = $height;
+							$imgix_args['fit'] = 'crop';
 						}
 					}
 
@@ -720,9 +720,9 @@ class WPImgIX
 
 				// Expose arguments to a filter before passing to ImgIX
 				if ($is_intermediate) {
-					$imgix_args['w'] = $width;
-					$imgix_args['h'] = $height;
-					$imgix_args['fit'] = 'clamp';
+					$imgix_args['max-w'] = $width;
+					$imgix_args['max-h'] = $height;
+					$imgix_args['fit'] = 'crop';
 				}
 
 				/**

@@ -2,7 +2,7 @@
 	"name": "rsoury/wp-imgix",
 	"description": "Rewrites WordPress image URLs to use ImgIX",
 	"type": "wordpress-plugin",
-	"license": "GPL-3.0",
+	"license": "GPL-2.0",
 	"authors": [
 		{
 			"name": "Ryan Soury",
