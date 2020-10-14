@@ -75,11 +75,30 @@ class WPImgIX
 
 		// Responsive image srcset substitution
 		add_filter('wp_calculate_image_srcset', array($this, 'filter_srcset_array'), 999, 5);
+
+		// Prevent url clean for imgix urls
+		add_filter('clean_url', array($this, 'clean_imgix_urls'), 99, 2);
 	}
 
 	public function build_url(...$params)
 	{
 		return $this->builder->createURL(...$params);
+	}
+
+	/**
+	 * Creates compatibility with Visual Composer and ImgIX Image URLS
+	 *
+	 * @param string $content
+	 * @return void
+	 */
+	public function clean_imgix_urls($good_protocol_url, $original_url)
+	{
+		$hostname = parse_url($original_url, PHP_URL_HOST);
+		if (strpos($hostname, 'imgix.net') != false) {
+			return $original_url;
+		}
+
+		return $good_protocol_url;
 	}
 
 	/**
