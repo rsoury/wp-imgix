@@ -2,7 +2,7 @@
 
 /**
  * Plugin Name: WP ImgIX
- * Version: 0.12.4
+ * Version: 0.12.5
  * Description: Simple Wordpress ImgIX integration
  * Author: Ryan Soury | Web Doodle
  * Author URI: https://www.webdoodle.com.au/
@@ -36,9 +36,6 @@ function imgix_url($image_url, $args = array(), $scheme = null)
 	}
 
 	$image_url = trim($image_url);
-
-	$image_file = basename(parse_url($image_url, PHP_URL_PATH));
-	$image_url  = str_replace($image_file, urlencode($image_file), $image_url);
 
 	// Check of image_url to source from CDN is from uploads
 	if (strpos($image_url, $upload_baseurl) !== 0) {
