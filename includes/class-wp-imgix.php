@@ -5,8 +5,8 @@ use Imgix\UrlBuilder;
 class WPImgIX
 {
 	/**
-							 * Class variables
-							 */
+	 * Class variables
+	 */
 	// Oh look, a singleton
 	private static $__instance = null;
 
@@ -14,7 +14,6 @@ class WPImgIX
 
 	// Allowed extensions must match https://code.trac.wordpress.org/browser/photon/index.php#L33
 	protected static $extensions = array(
-		'gif',
 		'jpg',
 		'jpeg',
 		'png'
@@ -24,10 +23,10 @@ class WPImgIX
 	protected static $image_sizes = null;
 
 	/**
-							 * Singleton implementation
-							 *
-							 * @return object
-							 */
+	 * Singleton implementation
+	 *
+	 * @return object
+	 */
 	public static function instance()
 	{
 		if (!is_a(self::$__instance, __CLASS__)) {
