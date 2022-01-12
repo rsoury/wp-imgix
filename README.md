@@ -5,9 +5,11 @@ It works very well with [S3-Uploads](https://github.com/humanmade/S3-Uploads)
 
 ## Installation
 
-1. Upload and enable this plugin.
-2. Add `define( 'WP_IMGIX_URL', 'your.imgix.net' )` to your `wp-config.php` file.
-2. If you're signing urls, Add `define( 'WP_IMGIX_SIGNING_TOKEN', 'abcdefg123456' )` to your `wp-config.php` file.
+1. [Download the zipped main branch of this plugin from github](https://github.com/rsoury/wp-imgix/archive/refs/heads/master.zip).
+2. Extract the plugin to your `plugins` folder.
+3. Enable the plugin.
+4. Add `define( 'WP_IMGIX_URL', 'your.imgix.net' )` to your `wp-config.php` file.
+5. If you're signing urls, Add `define( 'WP_IMGIX_SIGNING_TOKEN', 'abcdefg123456' )` to your `wp-config.php` file.
 
 ## Usage
 
