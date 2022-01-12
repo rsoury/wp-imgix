@@ -32,11 +32,11 @@ $url = imgix_url( $image_url, $args );
 
 ### Filters
 
-The following filters allow you to modify the output and behaviour of the plugin.
+The following filters allow you to modify the output and behaviour of the plugin. The filters below can be added to your theme's `functions.php` to modify the behavior of your imgix URLs.
 
 #### `imgix_disable_in_admin`
 
-Defaults to `true`. You can override this by adding the following code to a plugin or your theme's `functions.php`:
+Defaults to `true`.
 
 ```php
 add_filter( 'imgix_disable_in_admin', '__return_false' );
