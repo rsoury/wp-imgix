@@ -3,13 +3,14 @@
 /**
  * Plugin Name: WP ImgIX
  * Version: 0.12.6
- * Description: Simple Wordpress ImgIX integration
+ * Description: Simple WordPress ImgIX integration
  * Author: Ryan Soury | Web Doodle
  * Author URI: https://www.webdoodle.com.au/
  */
 
-if (!defined('WP_IMGIX_URL') || !WP_IMGIX_URL) {
-	return;
+$WP_IMGIX_URL = get_option('WP_IMGIX_URL') ? get_option('WP_IMGIX_URL') : WP_IMGIX_URL;
+if (!defined('WP_IMGIX_URL') || !$WP_IMGIX_URL) {
+    return;
 }
 
 require_once dirname(__FILE__) . '/vendor/autoload.php';

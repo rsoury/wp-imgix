@@ -57,9 +57,11 @@ class WPImgIX
 		if (!function_exists('imgix_url'))
 			return;
 
-		$this->builder = new UrlBuilder(WP_IMGIX_URL);
+        $WP_IMGIX_URL = get_option('WP_IMGIX_URL') ? get_option('WP_IMGIX_URL') : WP_IMGIX_URL;
+        $WP_IMGIX_SIGNING_TOKEN = get_option('WP_IMGIX_SIGNING_TOKEN') ? get_option('WP_IMGIX_SIGNING_TOKEN') : WP_IMGIX_SIGNING_TOKEN;
+		$this->builder = new UrlBuilder($WP_IMGIX_URL);
 		if (defined('WP_IMGIX_SIGNING_TOKEN')) {
-			$this->builder->setSignKey(WP_IMGIX_SIGNING_TOKEN);
+			$this->builder->setSignKey($WP_IMGIX_SIGNING_TOKEN);
 		}
 
 
@@ -812,7 +814,8 @@ class WPImgIX
 
 			// If the image_src is a imgix url, add it's params
 			// to the srcset images too.
-			if (strpos($image_src, WP_IMGIX_URL) === 0) {
+            $WP_IMGIX_URL = get_option('WP_IMGIX_URL') ? get_option('WP_IMGIX_URL') : WP_IMGIX_URL;
+			if (strpos($image_src, $WP_IMGIX_URL) === 0) {
 				parse_str(parse_url($image_src, PHP_URL_QUERY), $image_src_args);
 				$args = array_merge($args, array_intersect_key($image_src_args, ['crop' => true]));
 			}
