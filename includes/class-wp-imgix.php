@@ -60,7 +60,7 @@ class WPImgIX
         $WP_IMGIX_URL = get_option('WP_IMGIX_URL') ? get_option('WP_IMGIX_URL') : WP_IMGIX_URL;
         $WP_IMGIX_SIGNING_TOKEN = get_option('WP_IMGIX_SIGNING_TOKEN') ? get_option('WP_IMGIX_SIGNING_TOKEN') : WP_IMGIX_SIGNING_TOKEN;
 		$this->builder = new UrlBuilder($WP_IMGIX_URL);
-		if (defined('WP_IMGIX_SIGNING_TOKEN')) {
+		if ($WP_IMGIX_SIGNING_TOKEN) {
 			$this->builder->setSignKey($WP_IMGIX_SIGNING_TOKEN);
 		}
 
