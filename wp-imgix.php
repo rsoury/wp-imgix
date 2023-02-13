@@ -9,7 +9,7 @@
  */
 
 $WP_IMGIX_URL = get_option('WP_IMGIX_URL') ? get_option('WP_IMGIX_URL') : WP_IMGIX_URL;
-if (!defined('WP_IMGIX_URL') || !$WP_IMGIX_URL) {
+if (!$WP_IMGIX_URL) {
     return;
 }
 
