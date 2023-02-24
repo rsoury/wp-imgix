@@ -5,9 +5,11 @@ It works very well with [S3-Uploads](https://github.com/humanmade/S3-Uploads)
 
 ## Installation
 
-1. Upload and enable this plugin.
-2. Add `define( 'WP_IMGIX_URL', 'your.imgix.net' )` to your `wp-config.php` file.
-2. If you're signing urls, Add `define( 'WP_IMGIX_SIGNING_TOKEN', 'abcdefg123456' )` to your `wp-config.php` file.
+1. [Download the zipped main branch of this plugin from github](https://github.com/rsoury/wp-imgix/archive/refs/heads/master.zip).
+2. Extract the plugin to your `plugins` folder.
+3. Enable the plugin.
+4. Add `define( 'WP_IMGIX_URL', 'your.imgix.net' )` to your `wp-config.php` file.
+5. If you're signing urls, Add `define( 'WP_IMGIX_SIGNING_TOKEN', 'abcdefg123456' )` to your `wp-config.php` file.
 
 ## Usage
 
@@ -32,11 +34,11 @@ $url = imgix_url( $image_url, $args );
 
 ### Filters
 
-The following filters allow you to modify the output and behaviour of the plugin.
+The following filters allow you to modify the output and behaviour of the plugin. The filters below can be added to your theme's `functions.php` to modify the behavior of your imgix URLs.
 
 #### `imgix_disable_in_admin`
 
-Defaults to `true`. You can override this by adding the following code to a plugin or your theme's `functions.php`:
+Defaults to `true`.
 
 ```php
 add_filter( 'imgix_disable_in_admin', '__return_false' );
