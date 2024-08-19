@@ -130,7 +130,7 @@ class Tests_Resizing extends WP_UnitTestCase {
 		$actual_src = wp_get_attachment_image_src( self::$attachment_ids[ $file ], $size );
 		$actual_url = $actual_src[0];
 
-		$this->assertContains( $actual_url, $valid_urls, "The resized image is expected to be {$actual_src[1]}x{$actual_src[2]}" );
+		$this->assertStringContainsString( $actual_url, $valid_urls, "The resized image is expected to be {$actual_src[1]}x{$actual_src[2]}" );
 		$this->assertSame( $expected_size[0], $actual_src[1] );
 		$this->assertSame( $expected_size[1], $actual_src[2] );
 	}
@@ -446,7 +446,7 @@ class Tests_Resizing extends WP_UnitTestCase {
 		$the_content = Tachyon::filter_the_content( $content );
 		$actual_src = $this->get_src_from_html( $the_content );
 
-		$this->assertContains( $actual_src, $valid_urls, 'The resized image is expected to be ' . implode( ' or ', $valid_urls ) );
+		$this->assertStringContainsString( $actual_src, $valid_urls, 'The resized image is expected to be ' . implode( ' or ', $valid_urls ) );
 	}
 
 	/**

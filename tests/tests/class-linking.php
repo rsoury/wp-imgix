@@ -120,8 +120,8 @@ class Tests_Linking extends WP_UnitTestCase {
 		$actual_src = $this->get_src_from_html( $the_content );
 		$actual_href = $this->get_href_from_html( $the_content );
 
-		$this->assertContains( $actual_src, $valid_src_urls, 'The resized image is expected to be ' . implode( ' or ', $valid_src_urls ) );
-		$this->assertContains( $actual_href, $valid_link_urls, 'The link is expected to be ' . implode( ' or ', $valid_link_urls ) );
+		$this->assertStringContainsString( $actual_src, $valid_src_urls, 'The resized image is expected to be ' . implode( ' or ', $valid_src_urls ) );
+		 $this->assertStringContainsString( $actual_href, $valid_link_urls, 'The link is expected to be ' . implode( ' or ', $valid_link_urls ) );
 	}
 
 	/**
