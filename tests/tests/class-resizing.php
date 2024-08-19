@@ -1,6 +1,7 @@
 <?php
 namespace HM\Tachyon\Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use ReflectionClass;
 use Tachyon;
 use WP_UnitTestCase;
@@ -122,9 +123,8 @@ class Tests_Resizing extends WP_UnitTestCase {
 
 	/**
 	 * Test URLs are parsed correctly.
-	 *
-	 * @dataProvider data_filtered_url
 	 */
+	#[DataProvider('data_filtered_url')]
 	function test_filtered_url( $file, $size, $valid_urls, $expected_size ) {
 		$valid_urls = (array) $valid_urls;
 		$actual_src = wp_get_attachment_image_src( self::$attachment_ids[ $file ], $size );
@@ -434,9 +434,8 @@ class Tests_Resizing extends WP_UnitTestCase {
 
 	/**
 	 * Test image tags passed as part of the content.
-	 *
-	 * @dataProvider data_content_filtering
 	 */
+	#[DataProvider('data_content_filtering')]
 	function test_content_filtering( $file, $content, $valid_urls ) {
 		$valid_urls = (array) $valid_urls;
 		$attachment_id = self::$attachment_ids[ $file ];
