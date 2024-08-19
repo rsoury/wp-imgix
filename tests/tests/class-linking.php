@@ -109,7 +109,7 @@ class Tests_Linking extends WP_UnitTestCase {
 	 * Test image tags passed as part of the content.
 	 */
 	#[DataProvider('data_content_filtering')]
-	function test_content_filtering( $file, $content, $valid_link_urls, $valid_src_urls ) {
+	function test_content_filtering( $file, $content, $valid_link_urls, $valid_src_urls ): void {
 		$valid_link_urls = (array) $valid_link_urls;
 		$valid_src_urls = (array) $valid_src_urls;
 		$attachment_id = self::$attachment_ids[ $file ];
@@ -135,7 +135,7 @@ class Tests_Linking extends WP_UnitTestCase {
 	 *     $valid_urls   array  Valid Tachyon URLs for resizing.
 	 * }
 	 */
-	function data_content_filtering() {
+	function data_content_filtering(): array {
 		return [
 			// Classic editor linked thumbnail.
 			[

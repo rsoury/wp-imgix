@@ -125,7 +125,7 @@ class Tests_Resizing extends WP_UnitTestCase {
 	 * Test URLs are parsed correctly.
 	 */
 	#[DataProvider('data_filtered_url')]
-	function test_filtered_url( $file, $size, $valid_urls, $expected_size ) {
+	function test_filtered_url( $file, $size, $valid_urls, $expected_size ): void {
 		$valid_urls = (array) $valid_urls;
 		$actual_src = wp_get_attachment_image_src( self::$attachment_ids[ $file ], $size );
 		$actual_url = $actual_src[0];
@@ -146,7 +146,7 @@ class Tests_Resizing extends WP_UnitTestCase {
 	 *     $valid_urls array  Valid Tachyon URLs for resizing.
 	 * }
 	 */
-	function data_filtered_url() {
+	function data_filtered_url(): array {
 		return [
 			[
 				'tachyon',
@@ -436,7 +436,7 @@ class Tests_Resizing extends WP_UnitTestCase {
 	 * Test image tags passed as part of the content.
 	 */
 	#[DataProvider('data_content_filtering')]
-	function test_content_filtering( $file, $content, $valid_urls ) {
+	function test_content_filtering( $file, $content, $valid_urls ): void {
 		$valid_urls = (array) $valid_urls;
 		$attachment_id = self::$attachment_ids[ $file ];
 		$content = str_replace( '%%ID%%', $attachment_id, $content );
@@ -459,7 +459,7 @@ class Tests_Resizing extends WP_UnitTestCase {
 	 *     $valid_urls   array  Valid Tachyon URLs for resizing.
 	 * }
 	 */
-	function data_content_filtering() {
+	function data_content_filtering(): array {
 		return [
 			// Classic editor formatted image tags.
 			[
