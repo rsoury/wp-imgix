@@ -1,23 +1,23 @@
 {
-	"name": "rsoury/wp-imgix",
-	"description": "Rewrites WordPress image URLs to use ImgIX",
-	"type": "wordpress-plugin",
-	"license": "GPL-2.0",
-	"authors": [
-		{
-			"name": "Ryan Soury",
-			"email": "ryan@webdoodle.com.au",
-			"homepage": "https://www.webdoodle.com.au"
-		}
-	],
-	"support": {
-		"issues": "https://github.com/rsoury/wp-imgix/issues",
-		"source": "https://github.com/rsoury/wp-imgix"
-	},
-	"require": {
-		"imgix/imgix-php": "^3.3"
-	},
-	"require-dev": {
-		"phpunit/phpunit": "^7"
-	}
+    "name": "rsoury/wp-imgix",
+    "description": "Rewrites WordPress image URLs to use ImgIX",
+    "type": "wordpress-plugin",
+    "license": "GPL-2.0",
+    "authors": [
+        {
+            "name": "Ryan Soury",
+            "email": "ryan@webdoodle.com.au",
+            "homepage": "https://www.webdoodle.com.au"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/rsoury/wp-imgix/issues",
+        "source": "https://github.com/rsoury/wp-imgix"
+    },
+    "require": {
+        "imgix/imgix-php": "^3.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.0"
+    }
 }
