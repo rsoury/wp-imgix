@@ -18,6 +18,6 @@
         "imgix/imgix-php": "^3.3"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.0"
+        "phpunit/phpunit": "^10.0"
     }
 }
