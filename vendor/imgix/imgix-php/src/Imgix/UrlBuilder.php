@@ -10,6 +10,7 @@ class UrlBuilder {
     private $domain;
     private $useHttps;
     private $signKey;
+    private $includeLibraryParam;
 
     const TARGET_WIDTHS = array(
         100, 116, 134, 156, 182, 210, 244, 282,

@@ -97,6 +97,8 @@ class WPImgIX
 	public function clean_imgix_urls($good_protocol_url, $original_url)
 	{
 		$hostname = parse_url($original_url, PHP_URL_HOST);
+		$hostname = $hostname ?? ''; // Ensure $hostname is not null
+
 		if (strpos($hostname, 'imgix.net') != false) {
 			return $original_url;
 		}
