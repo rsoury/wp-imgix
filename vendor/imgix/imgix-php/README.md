@@ -4,34 +4,30 @@
 `imgix-php` is a client library for generating image URLs with [imgix](https://www.imgix.com/). It is tested under PHP versions `5.6`, `7.0`, `7.1`, and `7.2`
 
 [![Version](https://img.shields.io/packagist/v/imgix/imgix-php.svg)](https://packagist.org/packages/imgix/imgix-php)
-[![Build Status](https://travis-ci.org/imgix/imgix-php.svg?branch=master)](https://travis-ci.org/imgix/imgix-php)
+[![Build Status](https://travis-ci.com/imgix/imgix-php.svg?branch=main)](https://travis-ci.com/imgix/imgix-php)
 [![Downloads](https://img.shields.io/packagist/dt/imgix/imgix-php)](https://packagist.org/packages/imgix/imgix-php)
-[![License](https://img.shields.io/github/license/imgix/imgix-php)](https://github.com/imgix/imgix-php/blob/master/LICENSE)
+[![License](https://img.shields.io/github/license/imgix/imgix-php)](https://github.com/imgix/imgix-php/blob/main/LICENSE)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fimgix%2Fimgix-php.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fimgix%2Fimgix-php?ref=badge_shield)
 
 ---
 <!-- /ix-docs-ignore -->
 
 - [Installation](#installation)
-  - [Standalone](#standalone)
-  - [Using Composer](#using-composer)
+    * [Using Composer](#using-composer)
+    * [Standalone](#standalone)
 - [Usage](#usage)
 - [Signed URLs](#signed-urls)
 - [Srcset Generation](#srcset-generation)
-  - [Fixed-Width Images](#fixed-width-images)
-    - [Variable Quality](#variable-quality)
-  - [Fluid-Width Images](#fluid-width-images)
-    - [Custom Widths](#custom-widths)
-    - [Width Ranges](#width-ranges)
-    - [Width Tolerance](#width-tolerance)
+    * [Fixed-Width Images](#fixed-width-images)
+        + [Variable Quality](#variable-quality)
+    * [Fluid-Width Images](#fluid-width-images)
+        + [Custom Widths](#custom-widths)
+        + [Width Ranges](#width-ranges)
+        + [Width Tolerance](#width-tolerance)
 - [The `ixlib` Parameter](#the-ixlib-parameter)
-- [Testing](#testing)
-  - [Dependencies](#dependencies)
+- [License](#license)
 
 ## Installation
-
-### Standalone
-
-Just copy the files to your project, and include the `src/autoload.php` file. We recommend using Composer if at all possible.
 
 ### Using Composer
 
@@ -40,12 +36,16 @@ Define the following requirement in your `composer.json` file:
 ```json
 {
   "require": {
-    "imgix/imgix-php": "dev-master"
+    "imgix/imgix-php": "dev-main"
   }
 }
 ```
 
 And include the global `vendor/autoload.php` autoloader.
+
+### Standalone
+
+Just copy the files to your project, and include the `src/autoload.php` file. We recommend using Composer if at all possible.
 
 ## Usage
 
@@ -110,9 +110,9 @@ https://demos.imgix.net/image.png?w=8192&s=a0fed46e2bbcc70ded13dc629aee5398 8192
 
 ### Fixed-Width Images
 
-In cases where enough information is provided about an image's dimensions, `createSrcSet` will instead build a srcset that will allow for an image to be served at different resolutions. The parameters taken into consideration when determining if an image is fixed-width are `w`, `h`, and `ar`.
+In cases where enough information is provided about an image's dimensions, `createSrcSet` will instead build a srcset that will allow for an image to be served at different resolutions. The parameters taken into consideration when determining if an image is fixed-width are `w` and `h`.
 
-By invoking `createSrcSet` with either a width **or** the height and aspect ratio (along with `fit=crop`, typically) provided, a different srcset will be generated for a fixed-width image instead.
+By invoking `createSrcSet` with either a width **or** height provided, a different srcset will be generated for a fixed-width image instead.
 
 ```php
 $builder = new UrlBuilder("demos.imgix.net", true, "my-key", false);
@@ -248,12 +248,5 @@ $builder = new UrlBuilder("demo.imgix.net", true, "", false);
 $builder->setIncludeLibraryParam(false);
 ```
 
-## Testing
-
-### Dependencies
-
-The tests have a few external dependencies. To install and run the test suite run:
-
-```bash
-phpunit --bootstrap src/autoload.php tests/
-```
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fimgix%2Fimgix-php.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fimgix%2Fimgix-php?ref=badge_large)

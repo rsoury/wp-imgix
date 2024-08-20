@@ -1,103 +1,90 @@
-<?php
+<?php declare(strict_types=1);
 /*
- * This file is part of the Text_Template package.
+ * This file is part of phpunit/php-text-template.
  *
  * (c) Sebastian Bergmann <sebastian@phpunit.de>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+namespace SebastianBergmann\Template;
 
-/**
- * A simple template engine.
- *
- * @since Class available since Release 1.0.0
- */
-class Text_Template
+use function array_keys;
+use function array_merge;
+use function file_get_contents;
+use function file_put_contents;
+use function is_file;
+use function sprintf;
+use function str_replace;
+
+final class Template
 {
-    /**
-     * @var string
-     */
-    protected $template = '';
+    private string $template = '';
+    private string $openDelimiter;
+    private string $closeDelimiter;
 
     /**
-     * @var string
+     * @psalm-var array<string,string>
      */
-    protected $openDelimiter = '{';
+    private array $values = [];
 
     /**
-     * @var string
-     */
-    protected $closeDelimiter = '}';
-
-    /**
-     * @var array
-     */
-    protected $values = array();
-
-    /**
-     * Constructor.
-     *
-     * @param  string                   $file
      * @throws InvalidArgumentException
      */
-    public function __construct($file = '', $openDelimiter = '{', $closeDelimiter = '}')
+    public function __construct(string $file = '', string $openDelimiter = '{', string $closeDelimiter = '}')
     {
         $this->setFile($file);
+
         $this->openDelimiter  = $openDelimiter;
         $this->closeDelimiter = $closeDelimiter;
     }
 
     /**
-     * Sets the template file.
-     *
-     * @param  string                   $file
      * @throws InvalidArgumentException
      */
-    public function setFile($file)
+    public function setFile(string $file): void
     {
+        if (is_file($file)) {
+            $this->template = file_get_contents($file);
+
+            return;
+        }
+
         $distFile = $file . '.dist';
 
-        if (file_exists($file)) {
-            $this->template = file_get_contents($file);
-        }
-
-        else if (file_exists($distFile)) {
+        if (is_file($distFile)) {
             $this->template = file_get_contents($distFile);
+
+            return;
         }
 
-        else {
-            throw new InvalidArgumentException(
-              'Template file could not be loaded.'
-            );
-        }
+        throw new InvalidArgumentException(
+            sprintf(
+                'Failed to load template "%s"',
+                $file
+            )
+        );
     }
 
     /**
-     * Sets one or more template variables.
-     *
-     * @param array $values
-     * @param bool  $merge
+     * @psalm-param array<string,string> $values
      */
-    public function setVar(array $values, $merge = TRUE)
+    public function setVar(array $values, bool $merge = true): void
     {
         if (!$merge || empty($this->values)) {
             $this->values = $values;
-        } else {
-            $this->values = array_merge($this->values, $values);
+
+            return;
         }
+
+        $this->values = array_merge($this->values, $values);
     }
 
-    /**
-     * Renders the template and returns the result.
-     *
-     * @return string
-     */
-    public function render()
+    public function render(): string
     {
-        $keys = array();
+        $keys = [];
 
-        foreach ($this->values as $key => $value) {
+        foreach (array_keys($this->values) as $key) {
             $keys[] = $this->openDelimiter . $key . $this->closeDelimiter;
         }
 
@@ -105,31 +92,17 @@ class Text_Template
     }
 
     /**
-     * Renders the template and writes the result to a file.
-     *
-     * @param string $target
+     * @codeCoverageIgnore
      */
-    public function renderTo($target)
+    public function renderTo(string $target): void
     {
-        $fp = @fopen($target, 'wt');
-
-        if ($fp) {
-            fwrite($fp, $this->render());
-            fclose($fp);
-        } else {
-            $error = error_get_last();
-
+        if (!@file_put_contents($target, $this->render())) {
             throw new RuntimeException(
-              sprintf(
-                'Could not write to %s: %s',
-                $target,
-                substr(
-                  $error['message'],
-                  strpos($error['message'], ':') + 2
+                sprintf(
+                    'Writing rendered result to "%s" failed',
+                    $target
                 )
-              )
             );
         }
     }
 }
-

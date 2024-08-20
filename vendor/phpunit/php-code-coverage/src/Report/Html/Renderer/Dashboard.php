@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /*
- * This file is part of the php-code-coverage package.
+ * This file is part of phpunit/php-code-coverage.
  *
  * (c) Sebastian Bergmann <sebastian@phpunit.de>
  *
@@ -9,30 +9,39 @@
  */
 namespace SebastianBergmann\CodeCoverage\Report\Html;
 
+use function array_values;
+use function arsort;
+use function asort;
+use function count;
+use function explode;
+use function floor;
+use function json_encode;
+use function sprintf;
+use function str_replace;
+use SebastianBergmann\CodeCoverage\FileCouldNotBeWrittenException;
 use SebastianBergmann\CodeCoverage\Node\AbstractNode;
 use SebastianBergmann\CodeCoverage\Node\Directory as DirectoryNode;
+use SebastianBergmann\Template\Exception;
+use SebastianBergmann\Template\Template;
 
 /**
- * Renders the dashboard for a directory node.
+ * @internal This class is not covered by the backward compatibility promise for phpunit/php-code-coverage
  */
 final class Dashboard extends Renderer
 {
-    /**
-     * @throws \InvalidArgumentException
-     * @throws \RuntimeException
-     */
     public function render(DirectoryNode $node, string $file): void
     {
-        $classes  = $node->getClassesAndTraits();
-        $template = new \Text_Template(
-            $this->templatePath . 'dashboard.html',
+        $classes      = $node->classesAndTraits();
+        $templateName = $this->templatePath . ($this->hasBranchCoverage ? 'dashboard_branch.html' : 'dashboard.html');
+        $template     = new Template(
+            $templateName,
             '{{',
-            '}}'
+            '}}',
         );
 
         $this->setCommonTemplateVariables($template, $node);
 
-        $baseLink             = $node->getId() . '/';
+        $baseLink             = $node->id() . '/';
         $complexity           = $this->complexity($classes, $baseLink);
         $coverageDistribution = $this->coverageDistribution($classes);
         $insufficientCoverage = $this->insufficientCoverage($classes, $baseLink);
@@ -48,16 +57,33 @@ final class Dashboard extends Renderer
                 'complexity_method'             => $complexity['method'],
                 'class_coverage_distribution'   => $coverageDistribution['class'],
                 'method_coverage_distribution'  => $coverageDistribution['method'],
-            ]
+            ],
         );
 
-        $template->renderTo($file);
+        try {
+            $template->renderTo($file);
+        } catch (Exception $e) {
+            throw new FileCouldNotBeWrittenException(
+                $e->getMessage(),
+                $e->getCode(),
+                $e,
+            );
+        }
+    }
+
+    protected function activeBreadcrumb(AbstractNode $node): string
+    {
+        return sprintf(
+            '         <li class="breadcrumb-item"><a href="index.html">%s</a></li>' . "\n" .
+            '         <li class="breadcrumb-item active">(Dashboard)</li>' . "\n",
+            $node->name(),
+        );
     }
 
     /**
      * Returns the data for the Class/Method Complexity charts.
      */
-    protected function complexity(array $classes, string $baseLink): array
+    private function complexity(array $classes, string $baseLink): array
     {
         $result = ['class' => [], 'method' => []];
 
@@ -70,10 +96,10 @@ final class Dashboard extends Renderer
                 $result['method'][] = [
                     $method['coverage'],
                     $method['ccn'],
-                    \sprintf(
+                    sprintf(
                         '<a href="%s">%s</a>',
-                        \str_replace($baseLink, '', $method['link']),
-                        $methodName
+                        str_replace($baseLink, '', $method['link']),
+                        $methodName,
                     ),
                 ];
             }
@@ -81,24 +107,24 @@ final class Dashboard extends Renderer
             $result['class'][] = [
                 $class['coverage'],
                 $class['ccn'],
-                \sprintf(
+                sprintf(
                     '<a href="%s">%s</a>',
-                    \str_replace($baseLink, '', $class['link']),
-                    $className
+                    str_replace($baseLink, '', $class['link']),
+                    $className,
                 ),
             ];
         }
 
         return [
-            'class'  => \json_encode($result['class']),
-            'method' => \json_encode($result['method']),
+            'class'  => json_encode($result['class']),
+            'method' => json_encode($result['method']),
         ];
     }
 
     /**
      * Returns the data for the Class / Method Coverage Distribution chart.
      */
-    protected function coverageDistribution(array $classes): array
+    private function coverageDistribution(array $classes): array
     {
         $result = [
             'class' => [
@@ -138,7 +164,7 @@ final class Dashboard extends Renderer
                 } elseif ($method['coverage'] === 100) {
                     $result['method']['100%']++;
                 } else {
-                    $key = \floor($method['coverage'] / 10) * 10;
+                    $key = floor($method['coverage'] / 10) * 10;
                     $key = $key . '-' . ($key + 10) . '%';
                     $result['method'][$key]++;
                 }
@@ -149,22 +175,22 @@ final class Dashboard extends Renderer
             } elseif ($class['coverage'] === 100) {
                 $result['class']['100%']++;
             } else {
-                $key = \floor($class['coverage'] / 10) * 10;
+                $key = floor($class['coverage'] / 10) * 10;
                 $key = $key . '-' . ($key + 10) . '%';
                 $result['class'][$key]++;
             }
         }
 
         return [
-            'class'  => \json_encode(\array_values($result['class'])),
-            'method' => \json_encode(\array_values($result['method'])),
+            'class'  => json_encode(array_values($result['class'])),
+            'method' => json_encode(array_values($result['method'])),
         ];
     }
 
     /**
      * Returns the classes / methods with insufficient coverage.
      */
-    protected function insufficientCoverage(array $classes, string $baseLink): array
+    private function insufficientCoverage(array $classes, string $baseLink): array
     {
         $leastTestedClasses = [];
         $leastTestedMethods = [];
@@ -172,7 +198,7 @@ final class Dashboard extends Renderer
 
         foreach ($classes as $className => $class) {
             foreach ($class['methods'] as $methodName => $method) {
-                if ($method['coverage'] < $this->highLowerBound) {
+                if ($method['coverage'] < $this->thresholds->highLowerBound()) {
                     $key = $methodName;
 
                     if ($className !== '*') {
@@ -183,32 +209,32 @@ final class Dashboard extends Renderer
                 }
             }
 
-            if ($class['coverage'] < $this->highLowerBound) {
+            if ($class['coverage'] < $this->thresholds->highLowerBound()) {
                 $leastTestedClasses[$className] = $class['coverage'];
             }
         }
 
-        \asort($leastTestedClasses);
-        \asort($leastTestedMethods);
+        asort($leastTestedClasses);
+        asort($leastTestedMethods);
 
         foreach ($leastTestedClasses as $className => $coverage) {
-            $result['class'] .= \sprintf(
+            $result['class'] .= sprintf(
                 '       <tr><td><a href="%s">%s</a></td><td class="text-right">%d%%</td></tr>' . "\n",
-                \str_replace($baseLink, '', $classes[$className]['link']),
+                str_replace($baseLink, '', $classes[$className]['link']),
                 $className,
-                $coverage
+                $coverage,
             );
         }
 
         foreach ($leastTestedMethods as $methodName => $coverage) {
-            [$class, $method] = \explode('::', $methodName);
+            [$class, $method] = explode('::', $methodName);
 
-            $result['method'] .= \sprintf(
+            $result['method'] .= sprintf(
                 '       <tr><td><a href="%s"><abbr title="%s">%s</abbr></a></td><td class="text-right">%d%%</td></tr>' . "\n",
-                \str_replace($baseLink, '', $classes[$class]['methods'][$method]['link']),
+                str_replace($baseLink, '', $classes[$class]['methods'][$method]['link']),
                 $methodName,
                 $method,
-                $coverage
+                $coverage,
             );
         }
 
@@ -218,7 +244,7 @@ final class Dashboard extends Renderer
     /**
      * Returns the project risks according to the CRAP index.
      */
-    protected function projectRisks(array $classes, string $baseLink): array
+    private function projectRisks(array $classes, string $baseLink): array
     {
         $classRisks  = [];
         $methodRisks = [];
@@ -226,7 +252,7 @@ final class Dashboard extends Renderer
 
         foreach ($classes as $className => $class) {
             foreach ($class['methods'] as $methodName => $method) {
-                if ($method['coverage'] < $this->highLowerBound && $method['ccn'] > 1) {
+                if ($method['coverage'] < $this->thresholds->highLowerBound() && $method['ccn'] > 1) {
                     $key = $methodName;
 
                     if ($className !== '*') {
@@ -237,45 +263,36 @@ final class Dashboard extends Renderer
                 }
             }
 
-            if ($class['coverage'] < $this->highLowerBound &&
-                $class['ccn'] > \count($class['methods'])) {
+            if ($class['coverage'] < $this->thresholds->highLowerBound() &&
+                $class['ccn'] > count($class['methods'])) {
                 $classRisks[$className] = $class['crap'];
             }
         }
 
-        \arsort($classRisks);
-        \arsort($methodRisks);
+        arsort($classRisks);
+        arsort($methodRisks);
 
         foreach ($classRisks as $className => $crap) {
-            $result['class'] .= \sprintf(
+            $result['class'] .= sprintf(
                 '       <tr><td><a href="%s">%s</a></td><td class="text-right">%d</td></tr>' . "\n",
-                \str_replace($baseLink, '', $classes[$className]['link']),
+                str_replace($baseLink, '', $classes[$className]['link']),
                 $className,
-                $crap
+                $crap,
             );
         }
 
         foreach ($methodRisks as $methodName => $crap) {
-            [$class, $method] = \explode('::', $methodName);
+            [$class, $method] = explode('::', $methodName);
 
-            $result['method'] .= \sprintf(
+            $result['method'] .= sprintf(
                 '       <tr><td><a href="%s"><abbr title="%s">%s</abbr></a></td><td class="text-right">%d</td></tr>' . "\n",
-                \str_replace($baseLink, '', $classes[$class]['methods'][$method]['link']),
+                str_replace($baseLink, '', $classes[$class]['methods'][$method]['link']),
                 $methodName,
                 $method,
-                $crap
+                $crap,
             );
         }
 
         return $result;
-    }
-
-    protected function getActiveBreadcrumb(AbstractNode $node): string
-    {
-        return \sprintf(
-            '         <li class="breadcrumb-item"><a href="index.html">%s</a></li>' . "\n" .
-            '         <li class="breadcrumb-item active">(Dashboard)</li>' . "\n",
-            $node->getName()
-        );
     }
 }
