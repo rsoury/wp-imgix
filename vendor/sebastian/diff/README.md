@@ -1,3 +1,8 @@
+[![Latest Stable Version](https://poser.pugx.org/sebastian/diff/v/stable.png)](https://packagist.org/packages/sebastian/diff)
+[![CI Status](https://github.com/sebastianbergmann/diff/workflows/CI/badge.svg)](https://github.com/sebastianbergmann/diff/actions)
+[![Type Coverage](https://shepherd.dev/github/sebastianbergmann/diff/coverage.svg)](https://shepherd.dev/github/sebastianbergmann/diff)
+[![codecov](https://codecov.io/gh/sebastianbergmann/diff/branch/main/graph/badge.svg)](https://codecov.io/gh/sebastianbergmann/diff)
+
 # sebastian/diff
 
 Diff implementation for PHP, factored out of PHPUnit into a stand-alone component.
@@ -6,11 +11,15 @@ Diff implementation for PHP, factored out of PHPUnit into a stand-alone componen
 
 You can add this library as a local, per-project dependency to your project using [Composer](https://getcomposer.org/):
 
-    composer require sebastian/diff
+```
+composer require sebastian/diff
+```
 
 If you only need this library during development, for instance to run your project's test suite, then you should add it as a development-time dependency:
 
-    composer require --dev sebastian/diff
+```
+composer require --dev sebastian/diff
+```
 
 ### Usage
 
@@ -37,7 +46,7 @@ The code above yields the output below:
 
 There are three output builders available in this package:
 
-#### UnifiedDiffOutputBuilder 
+#### UnifiedDiffOutputBuilder
 
 This is default builder, which generates the output close to udiff and is used by PHPUnit.
 
@@ -71,9 +80,9 @@ $builder = new StrictUnifiedDiffOutputBuilder([
     'collapseRanges'      => true, // ranges of length one are rendered with the trailing `,1`
     'commonLineThreshold' => 6,    // number of same lines before ending a new hunk and creating a new one (if needed)
     'contextLines'        => 3,    // like `diff:  -u, -U NUM, --unified[=NUM]`, for patch/git apply compatibility best to keep at least @ 3
-    'fromFile'            => null,
+    'fromFile'            => '',
     'fromFileDate'        => null,
-    'toFile'              => null,
+    'toFile'              => '',
     'toFileDate'          => null,
 ]);
 
@@ -101,7 +110,7 @@ print $differ->diff('foo', 'bar');
 
 #### DiffOutputBuilderInterface
 
-You can pass any output builder to the `Differ` class as longs as it implements the `DiffOutputBuilderInterface`. 
+You can pass any output builder to the `Differ` class as longs as it implements the `DiffOutputBuilderInterface`.
 
 #### Parsing diff
 
@@ -193,3 +202,5 @@ The code above yields the output below:
                     )
             )
     )
+
+Note: If the chunk size is 0 lines, i.e., `getStartRange()` or `getEndRange()` return 0, the number of line returned by `getStart()` or `getEnd()` is one lower than one would expect. It is the line number after which the chunk should be inserted or deleted; in all other cases, it gives the first line number of the replaced range of lines.

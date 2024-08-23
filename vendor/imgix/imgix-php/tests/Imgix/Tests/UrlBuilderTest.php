@@ -212,7 +212,7 @@ class UrlBuilderTest extends \PHPUnit\Framework\TestCase {
         $builder = new UrlBuilder("demos.imgix.net", true, false);
         $opts = array('start' => 328, 'stop' => 328);
         $actual = $builder->createSrcSet($path="image.jpg", $params=array(), $options=$opts);
-        $expected = 'https://demos.imgix.net/image.jpg?ixlib=php-3.3.0&w=328 328w';
+        $expected = 'https://demos.imgix.net/image.jpg?ixlib=php-3.3.1&w=328 328w';
         $this->assertEquals($expected, $actual);
 
         $builder = new UrlBuilder("demos.imgix.net", true, false);
@@ -221,15 +221,15 @@ class UrlBuilderTest extends \PHPUnit\Framework\TestCase {
             $params=array(), 
             $options=array('start' => 720, 'stop' => 720));
 
-        $expected = 'https://demos.imgix.net/image.jpg?ixlib=php-3.3.0&w=720 720w';
+        $expected = 'https://demos.imgix.net/image.jpg?ixlib=php-3.3.1&w=720 720w';
         $this->assertEquals($expected, $actual);
 
         $builder = new UrlBuilder("demos.imgix.net", true, false);
         $opts = array('start' => 640, 'stop' => 720);
         $actual = $builder->createSrcSet($path="image.jpg", $params=array(), $options=$opts);
         $expected = // Raw string literal
-'https://demos.imgix.net/image.jpg?ixlib=php-3.3.0&w=640 640w,
-https://demos.imgix.net/image.jpg?ixlib=php-3.3.0&w=720 720w';
+'https://demos.imgix.net/image.jpg?ixlib=php-3.3.1&w=640 640w,
+https://demos.imgix.net/image.jpg?ixlib=php-3.3.1&w=720 720w';
 
         $this->assertEquals($expected, $actual);
 
@@ -238,11 +238,11 @@ https://demos.imgix.net/image.jpg?ixlib=php-3.3.0&w=720 720w';
         $opts = array('start' => 100, 'stop' => 108, 'tol' => 0.01);
         $actual = $builder->createSrcSet($path="image.jpg", $params=array(), $options=$opts);
         $expected = // Raw string literal
-'https://demos.imgix.net/image.jpg?ixlib=php-3.3.0&w=100 100w,
-https://demos.imgix.net/image.jpg?ixlib=php-3.3.0&w=102 102w,
-https://demos.imgix.net/image.jpg?ixlib=php-3.3.0&w=104 104w,
-https://demos.imgix.net/image.jpg?ixlib=php-3.3.0&w=106 106w,
-https://demos.imgix.net/image.jpg?ixlib=php-3.3.0&w=108 108w';
+'https://demos.imgix.net/image.jpg?ixlib=php-3.3.1&w=100 100w,
+https://demos.imgix.net/image.jpg?ixlib=php-3.3.1&w=102 102w,
+https://demos.imgix.net/image.jpg?ixlib=php-3.3.1&w=104 104w,
+https://demos.imgix.net/image.jpg?ixlib=php-3.3.1&w=106 106w,
+https://demos.imgix.net/image.jpg?ixlib=php-3.3.1&w=108 108w';
 
         $this->assertEquals($expected, $actual);
     }
@@ -276,7 +276,7 @@ https://demos.imgix.net/image.jpg?ixlib=php-3.3.0&w=108 108w';
             $dprStr = $devicePixelRatio . "x";
             $this->assertEquals($dprStr, $generatedRatio);
             
-            $this->assertRegExp("/dpr=".$devicePixelRatio."/", $generatedURL);
+            $this->assertMatchesRegularExpression("/dpr=".$devicePixelRatio."/", $generatedURL);
             
             $devicePixelRatio += 1;
         }
@@ -287,11 +287,11 @@ https://demos.imgix.net/image.jpg?ixlib=php-3.3.0&w=108 108w';
         $actual = $builder->createSrcSet(
             $path="image.jpg", $params=array("w" => 640, "q" => 100));
         $expected =
-'https://demos.imgix.net/image.jpg?dpr=1&ixlib=php-3.3.0&q=100&w=640 1x,
-https://demos.imgix.net/image.jpg?dpr=2&ixlib=php-3.3.0&q=100&w=640 2x,
-https://demos.imgix.net/image.jpg?dpr=3&ixlib=php-3.3.0&q=100&w=640 3x,
-https://demos.imgix.net/image.jpg?dpr=4&ixlib=php-3.3.0&q=100&w=640 4x,
-https://demos.imgix.net/image.jpg?dpr=5&ixlib=php-3.3.0&q=100&w=640 5x';
+'https://demos.imgix.net/image.jpg?dpr=1&ixlib=php-3.3.1&q=100&w=640 1x,
+https://demos.imgix.net/image.jpg?dpr=2&ixlib=php-3.3.1&q=100&w=640 2x,
+https://demos.imgix.net/image.jpg?dpr=3&ixlib=php-3.3.1&q=100&w=640 3x,
+https://demos.imgix.net/image.jpg?dpr=4&ixlib=php-3.3.1&q=100&w=640 4x,
+https://demos.imgix.net/image.jpg?dpr=5&ixlib=php-3.3.1&q=100&w=640 5x';
         $this->assertEquals($expected, $actual);
     }
 
@@ -301,11 +301,11 @@ https://demos.imgix.net/image.jpg?dpr=5&ixlib=php-3.3.0&q=100&w=640 5x';
         $actual = $builder->createSrcSet($path="image.jpg", $params=array("w" => 740));
 
         $expected =
-'https://demos.imgix.net/image.jpg?dpr=1&ixlib=php-3.3.0&q=75&w=740 1x,
-https://demos.imgix.net/image.jpg?dpr=2&ixlib=php-3.3.0&q=50&w=740 2x,
-https://demos.imgix.net/image.jpg?dpr=3&ixlib=php-3.3.0&q=35&w=740 3x,
-https://demos.imgix.net/image.jpg?dpr=4&ixlib=php-3.3.0&q=23&w=740 4x,
-https://demos.imgix.net/image.jpg?dpr=5&ixlib=php-3.3.0&q=20&w=740 5x';
+'https://demos.imgix.net/image.jpg?dpr=1&ixlib=php-3.3.1&q=75&w=740 1x,
+https://demos.imgix.net/image.jpg?dpr=2&ixlib=php-3.3.1&q=50&w=740 2x,
+https://demos.imgix.net/image.jpg?dpr=3&ixlib=php-3.3.1&q=35&w=740 3x,
+https://demos.imgix.net/image.jpg?dpr=4&ixlib=php-3.3.1&q=23&w=740 4x,
+https://demos.imgix.net/image.jpg?dpr=5&ixlib=php-3.3.1&q=20&w=740 5x';
         $this->assertEquals($expected, $actual);
     }
 
@@ -317,11 +317,11 @@ https://demos.imgix.net/image.jpg?dpr=5&ixlib=php-3.3.0&q=20&w=740 5x';
         $actual = $builder->createSrcSet($path="image.jpg", $params=$params, $opts=$opts);
 
         $expected =
-'https://demos.imgix.net/image.jpg?dpr=1&ixlib=php-3.3.0&w=640 1x,
-https://demos.imgix.net/image.jpg?dpr=2&ixlib=php-3.3.0&w=640 2x,
-https://demos.imgix.net/image.jpg?dpr=3&ixlib=php-3.3.0&w=640 3x,
-https://demos.imgix.net/image.jpg?dpr=4&ixlib=php-3.3.0&w=640 4x,
-https://demos.imgix.net/image.jpg?dpr=5&ixlib=php-3.3.0&w=640 5x';
+'https://demos.imgix.net/image.jpg?dpr=1&ixlib=php-3.3.1&w=640 1x,
+https://demos.imgix.net/image.jpg?dpr=2&ixlib=php-3.3.1&w=640 2x,
+https://demos.imgix.net/image.jpg?dpr=3&ixlib=php-3.3.1&w=640 3x,
+https://demos.imgix.net/image.jpg?dpr=4&ixlib=php-3.3.1&w=640 4x,
+https://demos.imgix.net/image.jpg?dpr=5&ixlib=php-3.3.1&w=640 5x';
         $this->assertEquals($expected, $actual);
     }
 
@@ -334,11 +334,11 @@ https://demos.imgix.net/image.jpg?dpr=5&ixlib=php-3.3.0&w=640 5x';
         $actual = $builder->createSrcSet($path="image.jpg", $params, $opts);
 
         $expected =
-'https://demos.imgix.net/image.jpg?dpr=1&ixlib=php-3.3.0&q=75&w=540 1x,
-https://demos.imgix.net/image.jpg?dpr=2&ixlib=php-3.3.0&q=75&w=540 2x,
-https://demos.imgix.net/image.jpg?dpr=3&ixlib=php-3.3.0&q=75&w=540 3x,
-https://demos.imgix.net/image.jpg?dpr=4&ixlib=php-3.3.0&q=75&w=540 4x,
-https://demos.imgix.net/image.jpg?dpr=5&ixlib=php-3.3.0&q=75&w=540 5x';
+'https://demos.imgix.net/image.jpg?dpr=1&ixlib=php-3.3.1&q=75&w=540 1x,
+https://demos.imgix.net/image.jpg?dpr=2&ixlib=php-3.3.1&q=75&w=540 2x,
+https://demos.imgix.net/image.jpg?dpr=3&ixlib=php-3.3.1&q=75&w=540 3x,
+https://demos.imgix.net/image.jpg?dpr=4&ixlib=php-3.3.1&q=75&w=540 4x,
+https://demos.imgix.net/image.jpg?dpr=5&ixlib=php-3.3.1&q=75&w=540 5x';
         $this->assertEquals($expected, $actual);
     }
 
@@ -352,11 +352,11 @@ https://demos.imgix.net/image.jpg?dpr=5&ixlib=php-3.3.0&q=75&w=540 5x';
             $options=$opts);
 
         $expected =
-'https://demos.imgix.net/image.jpg?dpr=1&ixlib=php-3.3.0&q=99&w=440 1x,
-https://demos.imgix.net/image.jpg?dpr=2&ixlib=php-3.3.0&q=99&w=440 2x,
-https://demos.imgix.net/image.jpg?dpr=3&ixlib=php-3.3.0&q=99&w=440 3x,
-https://demos.imgix.net/image.jpg?dpr=4&ixlib=php-3.3.0&q=99&w=440 4x,
-https://demos.imgix.net/image.jpg?dpr=5&ixlib=php-3.3.0&q=99&w=440 5x';
+'https://demos.imgix.net/image.jpg?dpr=1&ixlib=php-3.3.1&q=99&w=440 1x,
+https://demos.imgix.net/image.jpg?dpr=2&ixlib=php-3.3.1&q=99&w=440 2x,
+https://demos.imgix.net/image.jpg?dpr=3&ixlib=php-3.3.1&q=99&w=440 3x,
+https://demos.imgix.net/image.jpg?dpr=4&ixlib=php-3.3.1&q=99&w=440 4x,
+https://demos.imgix.net/image.jpg?dpr=5&ixlib=php-3.3.1&q=99&w=440 5x';
         $this->assertEquals($expected, $actual);
     }
 
@@ -365,11 +365,11 @@ https://demos.imgix.net/image.jpg?dpr=5&ixlib=php-3.3.0&q=99&w=440 5x';
         $opts = array('widths' => array(100, 200, 303, 404, 535));
         $actual = $builder->createSrcSet($path="image.jpg", $params=array(), $options=$opts);
         $expected =
-'https://demos.imgix.net/image.jpg?ixlib=php-3.3.0&w=100 100w,
-https://demos.imgix.net/image.jpg?ixlib=php-3.3.0&w=200 200w,
-https://demos.imgix.net/image.jpg?ixlib=php-3.3.0&w=303 303w,
-https://demos.imgix.net/image.jpg?ixlib=php-3.3.0&w=404 404w,
-https://demos.imgix.net/image.jpg?ixlib=php-3.3.0&w=535 535w';
+'https://demos.imgix.net/image.jpg?ixlib=php-3.3.1&w=100 100w,
+https://demos.imgix.net/image.jpg?ixlib=php-3.3.1&w=200 200w,
+https://demos.imgix.net/image.jpg?ixlib=php-3.3.1&w=303 303w,
+https://demos.imgix.net/image.jpg?ixlib=php-3.3.1&w=404 404w,
+https://demos.imgix.net/image.jpg?ixlib=php-3.3.1&w=535 535w';
 
         $this->assertEquals($expected, $actual);
     }
@@ -380,7 +380,7 @@ https://demos.imgix.net/image.jpg?ixlib=php-3.3.0&w=535 535w';
 
         foreach ($srclist as $src) {
             $url = explode(" ", $src)[0];
-            $this->assertRegExp("/s=/", $url);
+            $this->assertMatchesRegularExpression("/s=/", $url);
 
             // parse out query params
             $params = substr($url, strrpos($url, "?"));
@@ -398,7 +398,7 @@ https://demos.imgix.net/image.jpg?ixlib=php-3.3.0&w=535 535w';
 
     public function testGivenHeightSrcsetGeneratesPairs() {
         $srcset = $this->srcsetBuilder(array("h"=>300));
-        $expectedNumberOfPairs = 31;
+        $expectedNumberOfPairs = 5;
         $this->assertEquals($expectedNumberOfPairs, count(explode(",", $srcset)));
     }
 
@@ -407,38 +407,27 @@ https://demos.imgix.net/image.jpg?ixlib=php-3.3.0&w=535 535w';
         $srclist = explode(",", $srcset);
 
         foreach ($srclist as $src) {
-            $this->assertRegExp("/h=300/", $src);
+            $this->assertMatchesRegularExpression("/h=300/", $src);
         }
     }
 
-    public function testGivenHeightSrcsetPairsWithinBounds() {
+    public function testHeightBasedSrcsetHasDprValues() {
         $srcset = $this->srcsetBuilder(array("h"=>300));
         $srclist = explode(",", $srcset);
 
-        $minParsed = explode(" ", $srclist[0])[1];
-        $maxParsed = explode(" ", $srclist[count($srclist)-1])[1];
-        $min = $this->parseWidth($minParsed);
-        $max = $this->parseWidth($maxParsed);
-
-        $this->assertGreaterThanOrEqual(100, $min);
-        $this->assertLessThanOrEqual(8192, $max);
+        foreach ($srclist as $i=>$src) {
+            $dpr = explode(" ", $src)[1];
+            $this->assertMatchesRegularExpression("/x/", $dpr);
+        }
     }
 
-    public function testGivenHeightSrcsetIteratesEighteenPercent() {
-        $incrementAllowed = .18;
+    public function testHeightIncludesDPRParam() {
         $srcset = $this->srcsetBuilder(array("h"=>300));
         $srclist = explode(",", $srcset);
 
-        $widths = array_map(function ($src) {
-            return $this->parseWidth(explode(" ", $src)[1]);
-        }, $srclist);
-
-        $prev = $widths[0];
-        $size = count($widths);
-        for ($i = 1; $i < $size; $i++) {
-            $width = $widths[$i];
-            $this->assertLessThan((1 + $incrementAllowed), ($width / $prev));
-            $prev = $width;
+        foreach ($srclist as $i=>$src) {
+            $dpr = explode(" ", $src)[0];
+            $this->assertMatchesRegularExpression("/dpr=/", $dpr);
         }
     }
 
@@ -451,7 +440,7 @@ https://demos.imgix.net/image.jpg?ixlib=php-3.3.0&w=535 535w';
         }, $srclist);
 
         foreach ($srcs as $src) {
-            $this->assertRegExp("/s=/", $src);
+            $this->assertMatchesRegularExpression("/s=/", $src);
 
             // parse out query params
             $params = substr($src, strrpos($src, "?"));
@@ -478,7 +467,7 @@ https://demos.imgix.net/image.jpg?ixlib=php-3.3.0&w=535 535w';
             $dprStr = $devicePixelRatio . "x";
             $this->assertEquals($dprStr, $generatedRatio);
             
-            $this->assertRegExp("/dpr=".$devicePixelRatio."/", $generatedURL);
+            $this->assertMatchesRegularExpression("/dpr=".$devicePixelRatio."/", $generatedURL);
             
             $devicePixelRatio += 1;
         }
@@ -490,7 +479,7 @@ https://demos.imgix.net/image.jpg?ixlib=php-3.3.0&w=535 535w';
 
         foreach ($srclist as $src) {
             $url = explode(" ", $src)[0];
-            $this->assertRegExp("/s=/", $url);
+            $this->assertMatchesRegularExpression("/s=/", $url);
             
             // parse out query params
             $params = substr($url, strrpos($url, "?"));
@@ -552,7 +541,7 @@ https://demos.imgix.net/image.jpg?ixlib=php-3.3.0&w=535 535w';
         }, $srclist);
 
         foreach ($srcs as $src) {
-            $this->assertRegExp("/s=/", $src);
+            $this->assertMatchesRegularExpression("/s=/", $src);
 
             // parse out query params
             $params = substr($src, strrpos($src, "?"));
@@ -579,7 +568,7 @@ https://demos.imgix.net/image.jpg?ixlib=php-3.3.0&w=535 535w';
             $dprStr = $devicePixelRatio . "x";
             $this->assertEquals($dprStr, $generatedRatio);
             
-            $this->assertRegExp("/dpr=".$devicePixelRatio."/", $generatedURL);
+            $this->assertMatchesRegularExpression("/dpr=".$devicePixelRatio."/", $generatedURL);
             
             $devicePixelRatio += 1;
         }
@@ -591,7 +580,7 @@ https://demos.imgix.net/image.jpg?ixlib=php-3.3.0&w=535 535w';
 
         foreach ($srclist as $src) {
             $url = explode(" ", $src)[0];
-            $this->assertRegExp("/s=/", $url);
+            $this->assertMatchesRegularExpression("/s=/", $url);
  
             // parse out query params
             $params = substr($url, strrpos($url, "?"));

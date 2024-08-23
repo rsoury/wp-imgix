@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * This file is part of PHPUnit.
  *
@@ -9,9 +9,8 @@
  */
 namespace PHPUnit;
 
-/**
- * Marker interface for PHPUnit exceptions.
- */
-interface Exception extends \Throwable
+use Throwable;
+
+interface Exception extends Throwable
 {
 }

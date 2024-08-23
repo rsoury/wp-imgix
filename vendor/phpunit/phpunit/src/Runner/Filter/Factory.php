@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * This file is part of PHPUnit.
  *
@@ -9,42 +9,72 @@
  */
 namespace PHPUnit\Runner\Filter;
 
+use function assert;
 use FilterIterator;
-use InvalidArgumentException;
 use Iterator;
 use PHPUnit\Framework\TestSuite;
 use ReflectionClass;
 
-class Factory
+/**
+ * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
+ *
+ * @internal This class is not covered by the backward compatibility promise for PHPUnit
+ */
+final class Factory
 {
     /**
-     * @var array
+     * @psalm-var array<int,array{0: ReflectionClass, 1: array|string}>
      */
-    private $filters = [];
+    private array $filters = [];
 
     /**
-     * @throws InvalidArgumentException
+     * @psalm-param list<non-empty-string> $testIds
      */
-    public function addFilter(ReflectionClass $filter, $args): void
+    public function addTestIdFilter(array $testIds): void
     {
-        if (!$filter->isSubclassOf(\RecursiveFilterIterator::class)) {
-            throw new InvalidArgumentException(
-                \sprintf(
-                    'Class "%s" does not extend RecursiveFilterIterator',
-                    $filter->name
-                )
-            );
-        }
+        $this->filters[] = [
+            new ReflectionClass(TestIdFilterIterator::class), $testIds,
+        ];
+    }
 
-        $this->filters[] = [$filter, $args];
+    /**
+     * @psalm-param list<non-empty-string> $groups
+     */
+    public function addExcludeGroupFilter(array $groups): void
+    {
+        $this->filters[] = [
+            new ReflectionClass(ExcludeGroupFilterIterator::class), $groups,
+        ];
+    }
+
+    /**
+     * @psalm-param list<non-empty-string> $groups
+     */
+    public function addIncludeGroupFilter(array $groups): void
+    {
+        $this->filters[] = [
+            new ReflectionClass(IncludeGroupFilterIterator::class), $groups,
+        ];
+    }
+
+    /**
+     * @psalm-param non-empty-string $name
+     */
+    public function addNameFilter(string $name): void
+    {
+        $this->filters[] = [
+            new ReflectionClass(NameFilterIterator::class), $name,
+        ];
     }
 
     public function factory(Iterator $iterator, TestSuite $suite): FilterIterator
     {
         foreach ($this->filters as $filter) {
-            [$class, $args] = $filter;
-            $iterator       = $class->newInstance($iterator, $args, $suite);
+            [$class, $arguments] = $filter;
+            $iterator            = $class->newInstance($iterator, $arguments, $suite);
         }
+
+        assert($iterator instanceof FilterIterator);
 
         return $iterator;
     }

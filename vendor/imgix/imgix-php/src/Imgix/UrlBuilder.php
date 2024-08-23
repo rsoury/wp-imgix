@@ -6,10 +6,11 @@ use Imgix\Validator;
 
 class UrlBuilder {
 
-    private $currentVersion = "3.3.0";
+    private $currentVersion = "3.3.1";
     private $domain;
     private $useHttps;
     private $signKey;
+    private $includeLibraryParam;
 
     const TARGET_WIDTHS = array(
         100, 116, 134, 156, 182, 210, 244, 282,
@@ -162,10 +163,9 @@ class UrlBuilder {
         $hasHeight = array_key_exists('h', $params) ? $params['h'] : NULL;
         $hasAspectRatio = array_key_exists('ar', $params) ? $params['ar'] : NULL;
 
-        // If `params` have a width param or _both_ height and aspect
-        // ratio parameters then the srcset to be constructed with
-        // these params _is dpr based
-        return $hasWidth || ($hasHeight && $hasAspectRatio);
+        // If `params` have a width or height parameter then the
+        // srcset to be constructed with these params _is dpr based
+        return $hasWidth || $hasHeight;
     }
 
     private function createDPRSrcSet($path, $params, $disableVariableQuality=false) {
